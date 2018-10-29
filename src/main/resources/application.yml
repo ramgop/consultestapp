@@ -1,0 +1,27 @@
+---
+spring:
+    application:
+        name: consultestapp
+    profiles:
+        active: test
+    cloud:
+        consul:
+            #for local config change this flag
+            #enabled: false
+            host: localhost
+            port: 8500
+            discovery:
+                instanceId: ${spring.application.name}:${random.value}
+                tags: version=@project.version@
+                healthCheckPath: /actuator/health
+                #healthCheckPath: ${management.context-path}/health
+                healthCheckInterval: 15s
+
+management:
+    endpoints:
+        web:
+            exposure:
+                include:
+                    -   env
+                    -   health
+                    -   info
